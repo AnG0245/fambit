@@ -10,8 +10,7 @@ services:
     autoDeployTrigger: 'off'
     dockerfilePath: ./Dockerfile
     dockerContext: .
-    healthCheckPath: /healthz
-    maxShutdownDelaySeconds: 75
+    healthCheckPath: /healthz  
     disk:
       name: fambit-data
       mountPath: /var/data
