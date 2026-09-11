@@ -1,0 +1,161 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:NubeBIM"
+      x:Class="NubeBIM.LibraryPane" Background="White" Foreground="#202329" FontSize="14" MinWidth="300"
+      FontFamily="/NubeBIM;component/Fonts/#Inter" UseLayoutRounding="True" SnapsToDevicePixels="True">
+ <Page.Resources>
+  <local:TileWidthConverter x:Key="TileWidth"/>
+  <Style TargetType="TextBlock"><Setter Property="TextWrapping" Value="Wrap"/></Style>
+  <Style TargetType="Button">
+   <Setter Property="Background" Value="White"/><Setter Property="Foreground" Value="#353A41"/>
+   <Setter Property="BorderBrush" Value="#E2E5E9"/><Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="Padding" Value="12,9"/><Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="HorizontalContentAlignment" Value="Center"/><Setter Property="FontSize" Value="13"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+    <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+     <Border.RenderTransform><TranslateTransform/></Border.RenderTransform>
+     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center"/>
+    </Border>
+    <ControlTemplate.Triggers>
+     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Chrome" Property="BorderBrush" Value="#AEB4BC"/></Trigger>
+     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Chrome" Property="BorderBrush" Value="#252A31"/></Trigger>
+     <Trigger Property="IsPressed" Value="True"><Setter TargetName="Chrome" Property="Opacity" Value="0.78"/></Trigger>
+     <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.45"/></Trigger>
+     <MultiDataTrigger>
+      <MultiDataTrigger.Conditions><Condition Binding="{Binding IsMouseOver,RelativeSource={RelativeSource Self}}" Value="True"/><Condition Binding="{Binding Tag,RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Value="True"/></MultiDataTrigger.Conditions>
+      <MultiDataTrigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="Chrome" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" To="-1" Duration="0:0:0.12"/></Storyboard></BeginStoryboard></MultiDataTrigger.EnterActions>
+      <MultiDataTrigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="Chrome" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.12"/></Storyboard></BeginStoryboard></MultiDataTrigger.ExitActions>
+     </MultiDataTrigger>
+    </ControlTemplate.Triggers>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+  <Style x:Key="RailButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+   <Setter Property="Width" Value="34"/><Setter Property="Height" Value="34"/><Setter Property="Padding" Value="8"/>
+   <Setter Property="Margin" Value="0,0,0,7"/><Setter Property="BorderBrush" Value="Transparent"/><Setter Property="Background" Value="Transparent"/>
+   <Style.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#EAECF0"/></Trigger></Style.Triggers>
+  </Style>
+  <Style x:Key="SmallButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+   <Setter Property="Width" Value="28"/><Setter Property="Height" Value="28"/><Setter Property="Padding" Value="6"/>
+   <Setter Property="BorderBrush" Value="Transparent"/><Setter Property="Background" Value="Transparent"/>
+  </Style>
+  <Style x:Key="InputBorder" TargetType="Border"><Setter Property="Background" Value="#F8F9FA"/><Setter Property="BorderBrush" Value="#E2E5E9"/><Setter Property="BorderThickness" Value="1"/><Setter Property="CornerRadius" Value="8"/></Style>
+  <Style TargetType="TextBox"><Setter Property="Padding" Value="10,9"/><Setter Property="Background" Value="Transparent"/><Setter Property="BorderThickness" Value="0"/><Setter Property="VerticalContentAlignment" Value="Center"/><Setter Property="SelectionBrush" Value="#CDD2D9"/></Style>
+  <Style TargetType="PasswordBox"><Setter Property="Padding" Value="10,9"/><Setter Property="Background" Value="Transparent"/><Setter Property="BorderThickness" Value="0"/></Style>
+ </Page.Resources>
+ <Grid>
+  <Grid.ColumnDefinitions><ColumnDefinition Width="46"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+  <Grid.RowDefinitions><RowDefinition Height="62"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <Border Grid.ColumnSpan="2" Background="White" BorderBrush="#E8EAED" BorderThickness="0,0,0,1">
+   <Grid Margin="7,0,14,0"><Grid.ColumnDefinitions><ColumnDefinition Width="39"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+    <Image Source="/NubeBIM;component/Assets/fambit-mark.png" Width="38" Height="38" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+    <TextBlock Grid.Column="1" Text="FAMBIT" Foreground="#111315" FontSize="21" FontWeight="SemiBold" VerticalAlignment="Center" Margin="9,0,0,0"/>
+    <TextBlock x:Name="RevitLabel" Grid.Column="2" FontSize="12" Foreground="#737A84" VerticalAlignment="Center"/>
+   </Grid>
+  </Border>
+  <Border Grid.Row="1" Grid.RowSpan="2" Background="#F8F9FA" BorderBrush="#E8EAED" BorderThickness="0,0,1,0">
+   <DockPanel Margin="5,12,5,9" LastChildFill="False">
+    <Button x:Name="AccountButton" DockPanel.Dock="Bottom" Style="{StaticResource RailButton}" Click="ShowAccount" ToolTip="Cuenta y actualizaciones" AutomationProperties.Name="Cuenta y actualizaciones" Margin="0"><Path Data="M12,3 A4,4 0 1 1 12,11 A4,4 0 1 1 12,3 M4,22 L4,19 C4,13 20,13 20,19 L20,22" Stroke="#5F6670" StrokeThickness="1.6" Width="17" Height="19" Stretch="Uniform"/></Button>
+    <StackPanel DockPanel.Dock="Top">
+     <Button x:Name="LibraryButton" Style="{StaticResource RailButton}" Click="ShowLibrary" ToolTip="Todas las familias" AutomationProperties.Name="Todas las familias"><Path Data="M3,3 L10,3 L10,10 L3,10 Z M14,3 L21,3 L21,10 L14,10 Z M3,14 L10,14 L10,21 L3,21 Z M14,14 L21,14 L21,21 L14,21 Z" Stroke="#5F6670" StrokeThickness="1.5" Width="17" Height="17" Stretch="Uniform"/></Button>
+     <Button x:Name="CategoriesButton" Style="{StaticResource RailButton}" Click="ToggleCategories" ToolTip="Categorías y subcategorías" AutomationProperties.Name="Categorías y subcategorías"><Path Data="M3,5 L9,5 L11,8 L21,8 L21,21 L3,21 Z M3,5 L3,3 L10,3 L12,6 L21,6" Stroke="#5F6670" StrokeThickness="1.5" Width="18" Height="17" Stretch="Uniform"/></Button>
+     <Border Height="1" Background="#E3E6EA" Margin="6,3,6,12"/>
+     <Button x:Name="RefreshButton" Style="{StaticResource RailButton}" Click="Refresh" ToolTip="Actualizar biblioteca" AutomationProperties.Name="Actualizar biblioteca"><Path Data="M20,7 A8,8 0 1 0 20,17 M20,3 L20,8 L15,8" Stroke="#5F6670" StrokeThickness="1.7" Stretch="Uniform" Width="18" Height="18"/></Button>
+    </StackPanel>
+   </DockPanel>
+  </Border>
+  <Grid x:Name="LibraryContent" Grid.Row="1" Grid.Column="1" Margin="12,12,12,0">
+   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+   <Grid Margin="1,0,1,10"><Grid.ColumnDefinitions><ColumnDefinition Width="19"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+    <Path Data="M3,3 L16,3 L21,8 L21,22 L3,22 Z M16,3 L16,8 L21,8" Stroke="#949BA4" StrokeThickness="1.5" Stretch="Uniform" Width="11" Height="13" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+    <TextBlock Grid.Column="1" x:Name="ProjectLabel" Text="Abre un proyecto para colocar familias" Foreground="#6D7682" FontSize="12" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+   </Grid>
+   <Border Grid.Row="1" Style="{StaticResource InputBorder}" Margin="0,0,0,12"><Grid>
+    <TextBox x:Name="SearchBox" TextChanged="SearchChanged" Padding="12,9,34,9" ToolTip="Buscar por nombre o descripción" AutomationProperties.Name="Buscar familias"/>
+    <Path IsHitTestVisible="False" Data="M10,3 A7,7 0 1 0 10,17 A7,7 0 1 0 10,3 M15,15 L22,22" Stroke="#848C96" StrokeThickness="1.7" Stretch="Uniform" Width="14" Height="14" HorizontalAlignment="Right" Margin="0,0,12,0"/>
+    <TextBlock x:Name="SearchHint" Text="Buscar familias" Foreground="#8B929B" FontSize="13" Margin="12,0,34,0" VerticalAlignment="Center" IsHitTestVisible="False"/>
+   </Grid></Border>
+   <ScrollViewer Grid.Row="2" x:Name="CatalogScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel>
+     <Grid Margin="0,0,1,10"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+      <Button x:Name="BackButton" Style="{StaticResource SmallButton}" Visibility="Collapsed" Click="AllCategories" ToolTip="Todas las familias" AutomationProperties.Name="Todas las familias" Margin="0,0,3,0"><Path Data="M16,4 L8,12 L16,20" Stroke="#68707A" StrokeThickness="1.8" Stretch="Uniform" Height="12" Width="6"/></Button>
+      <TextBlock x:Name="BreadcrumbLabel" Grid.Column="1" Text="Biblioteca / Todas las familias" FontSize="12" Foreground="#727A84" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+      <Button Grid.Column="2" Style="{StaticResource SmallButton}" Click="ToggleCategories" ToolTip="Elegir categoría" AutomationProperties.Name="Elegir categoría"><Path Data="M3,5 L21,5 M6,12 L18,12 M9,19 L15,19" Stroke="#68707A" StrokeThickness="1.6" Stretch="Uniform" Height="14" Width="16"/></Button>
+     </Grid>
+     <Border x:Name="CategoryHome" Visibility="Collapsed" BorderBrush="#E5E8EC" BorderThickness="1" CornerRadius="9" Padding="5" Margin="0,0,1,12">
+      <StackPanel><TextBlock Text="Categorías" Foreground="#717985" FontSize="12" FontWeight="Medium" Margin="9,7,9,6"/>
+       <Button Content="Todas las familias" Click="AllCategories" HorizontalContentAlignment="Left" BorderBrush="Transparent" Margin="0,0,0,3" Padding="9,10"/>
+       <ItemsControl x:Name="CategoryTiles"><ItemsControl.ItemTemplate><DataTemplate>
+        <Button HorizontalContentAlignment="Stretch" BorderBrush="Transparent" Padding="9,10" Margin="0,0,0,2" Click="CategoryClick">
+         <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="24"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+          <Path Data="{Binding Icon}" Stroke="#727A84" StrokeThickness="1.5" Stretch="Uniform" Width="16" Height="18" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+          <TextBlock Grid.Column="1" Text="{Binding Name}" FontSize="13" VerticalAlignment="Center" Margin="3,0,0,0"/>
+          <TextBlock Grid.Column="2" Text="{Binding Count}" Foreground="#8A929C" FontSize="12" VerticalAlignment="Center" Margin="8,0,0,0"/>
+         </Grid>
+        </Button>
+       </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+      </StackPanel>
+     </Border>
+     <WrapPanel x:Name="SubcategoryChips" Margin="0,0,0,7"/>
+     <Grid Margin="1,0,0,7"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+      <TextBlock x:Name="ResultsLabel" Text="Familias" FontWeight="Medium" FontSize="13" Foreground="#515963" VerticalAlignment="Center"/>
+      <Button x:Name="DensityButton" Grid.Column="1" Style="{StaticResource SmallButton}" Click="ToggleDensity" ToolTip="Ampliar tarjetas" AutomationProperties.Name="Cambiar tamaño de tarjetas"><Path Data="M3,3 L9,3 L9,9 L3,9 Z M15,3 L21,3 L21,9 L15,9 Z M3,15 L9,15 L9,21 L3,21 Z M15,15 L21,15 L21,21 L15,21 Z" Stroke="#777F89" StrokeThickness="1.5" Width="14" Height="14" Stretch="Uniform"/></Button>
+     </Grid>
+     <Grid><ItemsControl x:Name="FamilyTiles" Tag="104"><ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel><ItemsControl.ItemTemplate><DataTemplate>
+      <Button Padding="0" Margin="3,3,5,7" HorizontalContentAlignment="Stretch" Click="FamilyClick" ToolTip="{Binding Tooltip}" AutomationProperties.Name="{Binding Name}" BorderBrush="#E8EAED">
+       <Button.Width><MultiBinding Converter="{StaticResource TileWidth}"><Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType={x:Type ItemsControl}}"/><Binding Path="Tag" RelativeSource="{RelativeSource AncestorType={x:Type ItemsControl}}"/></MultiBinding></Button.Width>
+       <Grid><Grid.RowDefinitions><RowDefinition Height="112"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <Border Background="#FCFCFD" CornerRadius="7,7,0,0"><Grid Margin="9">
+         <Image Source="{Binding Image}" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+         <StackPanel Visibility="{Binding PlaceholderVisibility}" VerticalAlignment="Center" HorizontalAlignment="Center">
+          <Path Data="M3,6 L12,2 L21,6 L21,18 L12,22 L3,18 Z M3,6 L12,10 L21,6 M12,10 L12,22" Stroke="#AAB1BA" StrokeThickness="1.1" Width="26" Height="29" Stretch="Uniform"/>
+          <TextBlock Text="{Binding PreviewText}" Foreground="#788390" FontSize="12" TextAlignment="Center" Margin="0,7,0,0"/>
+         </StackPanel>
+        </Grid></Border>
+        <StackPanel Grid.Row="1" Margin="9,8,9,10">
+         <TextBlock Text="{Binding Name}" Foreground="#30353C" FontWeight="Medium" FontSize="13" LineHeight="17" Height="34" TextTrimming="CharacterEllipsis"/>
+         <TextBlock Text="{Binding CategoryLabel}" FontSize="12" Foreground="#6D7886" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="0,4,0,0"/>
+        </StackPanel>
+       </Grid>
+      </Button>
+     </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+      <StackPanel x:Name="EmptyPanel" HorizontalAlignment="Center" Margin="12,38">
+       <TextBlock Text="Sin resultados" FontWeight="Medium" FontSize="16" TextAlignment="Center"/>
+       <TextBlock x:Name="EmptyLabel" Text="Activa tu licencia para explorar la biblioteca." TextAlignment="Center" Foreground="#818A96" FontSize="13" Margin="0,9,0,0"/>
+      </StackPanel>
+     </Grid>
+    </StackPanel>
+   </ScrollViewer>
+  </Grid>
+  <Border Grid.Row="2" Grid.Column="1" Background="White" BorderBrush="#ECEEF1" BorderThickness="0,1,0,0" Padding="13,10">
+   <StackPanel>
+    <ProgressBar x:Name="Progress" Height="2" IsIndeterminate="True" Foreground="#626B77" Background="#F0F2F4" Visibility="Collapsed" Margin="0,0,0,7"/>
+    <ScrollViewer MaxHeight="68" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><TextBlock x:Name="StatusLabel" Text="Elige una familia para colocarla en tu proyecto." FontSize="12" Foreground="#7D8691"/></ScrollViewer>
+    <TextBlock x:Name="BuildLabel" Text="FAMBIT 0.3.0" FontSize="12" Foreground="#9AA1AB" Margin="0,8,0,0"/>
+   </StackPanel>
+  </Border>
+  <Border x:Name="AccountPanel" Grid.Row="1" Grid.Column="1" Visibility="Collapsed" Background="White">
+   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel Margin="18,22">
+    <TextBlock Text="Cuenta" Foreground="#202329" FontSize="21" FontWeight="SemiBold" Margin="0,0,0,7"/>
+    <TextBlock Text="Acceso y actualizaciones de FAMBIT." Foreground="#6D7785" FontSize="13" Margin="0,0,0,25"/>
+    <TextBlock Text="Tu sesión" FontSize="14" FontWeight="Medium" Margin="0,0,0,10"/>
+    <TextBlock Text="Cierra la sesión para usar otra licencia o liberar este equipo." Foreground="#6D7785" FontSize="13" Margin="0,0,0,12"/>
+    <Button x:Name="LogoutButton" Content="Cerrar sesión" Click="Logout" HorizontalContentAlignment="Left"/>
+    <Border Height="1" Background="#ECEEF1" Margin="0,23,0,23"/>
+    <TextBlock Text="Aplicación" FontSize="14" FontWeight="Medium" Margin="0,0,0,10"/>
+    <TextBlock Text="Consulta las versiones publicadas del complemento." Foreground="#6D7785" FontSize="13" Margin="0,0,0,12"/>
+    <Button x:Name="UpdateButton" Content="Buscar actualizaciones" Click="CheckUpdate" HorizontalContentAlignment="Left"/>
+    <Button Content="Volver a la biblioteca" Click="ShowLibrary" Background="Transparent" BorderBrush="Transparent" Foreground="#707986" Margin="0,20,0,0"/>
+   </StackPanel></ScrollViewer>
+  </Border>
+  <Border x:Name="LoginPanel" Grid.Row="1" Grid.Column="1" Background="White"><ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <StackPanel Margin="19,30">
+    <TextBlock Text="Activa tu biblioteca" FontSize="23" FontWeight="SemiBold" Foreground="#202329"/>
+    <TextBlock Text="Introduce el correo y la clave de tu licencia." Foreground="#6D7785" FontSize="13" Margin="0,10,0,27"/>
+    <TextBlock Text="Correo" FontSize="13" FontWeight="Medium" Margin="0,0,0,7"/>
+    <Border Style="{StaticResource InputBorder}" Margin="0,0,0,18"><TextBox x:Name="EmailBox" AutomationProperties.Name="Correo de la licencia"/></Border>
+    <TextBlock Text="Clave de licencia" FontSize="13" FontWeight="Medium" Margin="0,0,0,7"/>
+    <Border Style="{StaticResource InputBorder}" Margin="0,0,0,23"><PasswordBox x:Name="KeyBox" AutomationProperties.Name="Clave de licencia"/></Border>
+    <Button x:Name="ActivateButton" Content="Activar biblioteca" Background="#202329" Foreground="White" BorderBrush="#202329" FontWeight="Medium" Click="ActivateLicense" Padding="12,12"/>
+    <TextBlock x:Name="LoginStatus" Foreground="#8C514C" FontSize="13" Margin="0,15,0,0"/>
+   </StackPanel>
+  </ScrollViewer></Border>
+ </Grid>
+</Page>

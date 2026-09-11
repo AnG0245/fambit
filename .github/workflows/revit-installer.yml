@@ -1,0 +1,89 @@
+name: Instalador FAMBIT para Revit
+
+on:
+  workflow_dispatch:
+    inputs:
+      revit_year:
+        description: Version de Revit
+        type: choice
+        options: ['2024', '2025', '2026', '2027']
+        default: '2024'
+      framework:
+        description: Perfil .NET de la actualizacion instalada
+        type: choice
+        options: ['auto', 'net48', 'net8.0-windows', 'net10.0-windows']
+        default: auto
+      local_test:
+        description: Prueba del servidor en la misma PC
+        type: boolean
+        default: true
+      api_base_url:
+        description: URL de la API, terminada en /api/
+        type: string
+        default: 'http://127.0.0.1:8787/api/'
+  push:
+    branches: ['build-revit']
+    paths: ['revit/**', 'installer/**', 'refs/**', '.github/workflows/revit-installer.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  installer:
+    if: github.event.repository.private == true
+    runs-on: windows-2022
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      REVIT_YEAR: ${{ inputs.revit_year }}
+      REVIT_FRAMEWORK: ${{ inputs.framework || 'auto' }}
+      NUBE_BUILD_LOCAL: ${{ github.event_name == 'push' && 'true' || format('{0}', inputs.local_test) }}
+      NUBE_BUILD_API: ${{ inputs.api_base_url || 'http://127.0.0.1:8787/api/' }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Comprobar referencias suministradas
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $years = if ($env:REVIT_YEAR) { @([int]$env:REVIT_YEAR) } else {
+            @(2024,2025,2026,2027 | Where-Object { Test-Path "refs/$_/RevitAPI.dll" })
+          }
+          if (!$years.Count) { throw 'Faltan las bibliotecas oficiales. Lee docs/COMPILAR-GITHUB.md.' }
+          foreach ($year in $years) {
+            foreach ($name in @('RevitAPI.dll','RevitAPIUI.dll')) {
+              if (!(Test-Path "refs/$year/$name")) { throw "Falta refs/$year/$name" }
+            }
+          }
+          "NUBE_BUILD_YEARS=$($years -join ',')" >> $env:GITHUB_ENV
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+          dotnet-quality: ga
+      - name: Preparar Inno Setup 6
+        run: |
+          choco install innosetup --version=6.3.3 --yes --no-progress --limit-output
+          if ($LASTEXITCODE -notin @(0,3010)) { throw 'No se pudo instalar Inno Setup.' }
+          if (!(Test-Path 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe')) { throw 'No se encontro ISCC.exe.' }
+      - name: Compilar complemento y empaquetar EXE
+        run: |
+          $ErrorActionPreference = 'Stop'
+          foreach ($value in $env:NUBE_BUILD_YEARS.Split(',')) {
+            $year = [int]$value
+            $apis = @{}; $apis[$year] = (Resolve-Path "refs/$year").Path
+            $frameworks = @{}
+            if ($env:REVIT_FRAMEWORK -ne 'auto') { $frameworks[$year] = $env:REVIT_FRAMEWORK }
+            elseif (Test-Path "refs/$year/framework.txt") { $frameworks[$year] = (Get-Content "refs/$year/framework.txt" -Raw).Trim() }
+            & ./installer/build.ps1 -ApiBaseUrl $env:NUBE_BUILD_API -Years $year -ApiDirectories $apis -TargetFrameworks $frameworks -LocalTest:($env:NUBE_BUILD_LOCAL -eq 'true') -PackageInstaller
+          }
+      - name: Guardar instaladores y hashes
+        uses: actions/upload-artifact@v7
+        with:
+          name: FAMBIT-Instaladores-${{ github.run_number }}
+          path: |
+            artifacts/installer/*.exe
+            artifacts/installer/*.exe.sha256
+          if-no-files-found: error
+          retention-days: 14

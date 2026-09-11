@@ -1,0 +1,37 @@
+# Creates a paid service only when the owner submits this Blueprint in Render.
+# No custom domain, payment provider or real credentials are committed here.
+services:
+  - type: web
+    name: fambit
+    runtime: docker
+    plan: 0.5c-512mb
+    region: virginia
+    numInstances: 1
+    autoDeployTrigger: 'off'
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    maxShutdownDelaySeconds: 75
+    disk:
+      name: fambit-data
+      mountPath: /var/data
+      sizeGB: 5
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NUBE_LISTEN_HOST
+        value: 0.0.0.0
+      - key: NUBE_DATA_DIR
+        value: /var/data/fambit
+      - key: FAMBIT_BACKUP_DIR
+        value: /var/data/backups
+      - key: NUBE_ADMIN_USER
+        value: admin
+      - key: NUBE_ADMIN_OWNER
+        value: local-test
+      - key: NUBE_ADMIN_PASSWORD
+        sync: false
+      - key: FAMBIT_ADMIN_TOTP_SECRET
+        sync: false
+      - key: FAMBIT_TRUST_PROXY_HOPS
+        value: '1'

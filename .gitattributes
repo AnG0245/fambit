@@ -1,0 +1,4 @@
+# Windows launchers intentionally retain CRLF; it is not trailing whitespace.
+*.cmd -text whitespace=cr-at-eol
+# Container entrypoints must keep Unix line endings in Windows checkouts too.
+*.sh text eol=lf

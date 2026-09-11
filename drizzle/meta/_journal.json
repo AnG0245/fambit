@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1789061519753,
+      "tag": "0000_fat_shiver_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1789089310034,
+      "tag": "0001_fambit_subcategories",
+      "breakpoints": true
+    }
+  ]
+}
