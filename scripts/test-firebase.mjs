@@ -15,6 +15,7 @@ async function temporary(name, content) {
   await writeFile(path, content, {mode: 0o600});
 }
 try {
+  await run(['--test', 'tests/firebase-tools.test.mjs']);
   await run(['scripts/build-firebase.mjs', '--emulator']);
   await temporary('firebase/functions/.env.demo-fambit', 'FAMBIT_ADMIN_UID=fambit-test-admin\nFAMBIT_PUBLIC_ORIGIN=http://127.0.0.1:5000\nFAMBIT_OWNER_ID=local-test\nFAMBIT_STORAGE_BUCKET=demo-fambit.firebasestorage.app\n');
   // Published RFC test vector, used only with demo emulators; never a production secret.
