@@ -46,7 +46,7 @@ namespace NubeBIM {
    Busy(true);CancelThumbnails();
    try{
     var groups=await Client.GetAsync<CategoryResult>("client/categories");
-    var result=await Client.GetAsync<FamilyResult>("client/families?revit="+_year);
+    var result=await Client.FamiliesAsync(_year);
     if(_disposed)return;
     _categories=groups.Categories??new List<CategoryInfo>();
     _families=(result.Families??new List<FamilyInfo>()).Select(f=>new FamilyCard(f,_categories.Find(c=>c.Id==f.Category))).ToList();

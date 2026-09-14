@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -37,6 +38,18 @@ namespace NubeBIM {
   }
   private HttpRequestMessage Request(HttpMethod method,string route){var req=new HttpRequestMessage(method,route);req.Headers.Authorization=new AuthenticationHeaderValue("Bearer",_token);return req;}
   public async Task<T> GetAsync<T>(string route){using(var req=Request(HttpMethod.Get,route))using(var res=await _http.SendAsync(req)){await Check(res);return Json.Read<T>(await res.Content.ReadAsStringAsync());}}
+  public async Task<FamilyResult> FamiliesAsync(int year){
+   var result=new FamilyResult();var cursors=new HashSet<string>();var ids=new HashSet<string>();string? cursor=null;
+   do{
+    var route="client/families?revit="+year+(cursor==null?"":"&cursor="+Uri.EscapeDataString(cursor));
+    var page=await GetAsync<FamilyResult>(route);
+    if(page.Families==null)throw new InvalidOperationException("El servidor no devolvio una biblioteca valida.");
+    foreach(var family in page.Families)if(ids.Add(family.Id))result.Families.Add(family);
+    cursor=page.NextCursor;
+    if(!string.IsNullOrEmpty(cursor)&&(!cursors.Add(cursor)||cursors.Count>100))throw new InvalidOperationException("No se pudo completar la biblioteca. Solicita al administrador revisar la paginacion.");
+   }while(!string.IsNullOrEmpty(cursor));
+   return result;
+  }
   public async Task ValidateAsync(){using(var req=Request(HttpMethod.Get,"client/session"))using(var res=await _http.SendAsync(req)){await Check(res);}}
   public async Task LogoutAsync(){using(var req=Request(HttpMethod.Delete,"client/session"))using(var res=await _http.SendAsync(req)){if(res.StatusCode!=HttpStatusCode.Unauthorized&&res.StatusCode!=HttpStatusCode.Forbidden)await Check(res);}ForgetSession();}
   public void ForgetSession(){CredentialStore.Clear(_credential);_token="";}

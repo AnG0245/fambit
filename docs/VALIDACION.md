@@ -1,5 +1,19 @@
 # Verificación de esta entrega
 
+## Migración Firebase 0.5.0 — 13–14 de septiembre de 2026
+
+- Node 22.23.2 y Java 21.0.12: 11 resultados de pruebas Firebase aprobados, cero fallos, con `node scripts/test-firebase.mjs --http`. El transporte HTTP llama al manejador real exportado por Functions; Authentication, Firestore, Storage y la web estática usan emuladores oficiales.
+- Se comprueban autenticación administrativa y TOTP, protección de sesión persistente, origen, duplicados y límite de equipos en concurrencia, rotación, suspensión, liberación, descarga privada, SHA-256, actualización de miniatura/RFA, reglas que deniegan acceso directo, paginación y cuotas persistentes. Importación de copia SQLite: preserva licencia, equipo y bytes; rechaza copia manipulada y segunda importación.
+- 27 pruebas de regresión del servidor portable aprobadas, cero fallos, después de compilar sus recursos web.
+- `npm audit --omit=dev` en `firebase/functions`: cero vulnerabilidades registradas en la revisión. Esto no acredita ausencia de vulnerabilidades desconocidas ni cubre todas las herramientas de desarrollo. Se documenta el override de UUID en la guía.
+- Compilación del panel Firebase correcta. Los recursos públicos excluyen datos, credenciales y archivos RFA.
+
+**Límite del entorno:** el emulador de Functions intenta abrir un socket Unix que esta sesión impide (`EPERM`). Por eso la prueba local usa `--http`. No acredita la reescritura real de Hosting a Functions. La prueba completa está configurada en `.github/workflows/firebase-checks.yml`; su resultado debe consultarse en el commit publicado.
+
+No se ha desplegado en un proyecto Firebase real, activado Blaze, migrado datos del usuario, firmado un instalador ni probado el EXE 0.5.0 en Windows/Revit. Los RFA de las pruebas son contenedores sintéticos; no prueban geometría ni colocación nativa. El cliente C# incorpora paginación y conserva la lógica existente de carga y colocación. **No puedo confirmar esto en Revit hasta compilar y probar la nueva DLL.**
+
+Las secciones siguientes son registros históricos y no amplían la compatibilidad comprobada de 0.5.0.
+
 ## Preparación comercial 0.4.0 — 11 de septiembre de 2026
 
 Resultado comprobado en Linux, Node.js 24.19.0:

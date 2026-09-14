@@ -18,7 +18,7 @@ namespace NubeBIM {
  }
  [DataContract] public sealed class ActivationResult{[DataMember(Name="token")]public string Token{get;set;}="";[DataMember(Name="name")]public string Name{get;set;}="";}
  [DataContract] public sealed class ErrorResult{[DataMember(Name="error")]public string Error{get;set;}="";}
- [DataContract] public sealed class FamilyResult{[DataMember(Name="families")]public List<FamilyInfo> Families{get;set;}=new List<FamilyInfo>();}
+ [DataContract] public sealed class FamilyResult{[DataMember(Name="families")]public List<FamilyInfo> Families{get;set;}=new List<FamilyInfo>();[DataMember(Name="nextCursor")]public string? NextCursor{get;set;}}
  [DataContract] public sealed class FamilyInfo {
   [DataMember(Name="id")]public string Id{get;set;}="";[DataMember(Name="name")]public string Name{get;set;}="";
   [DataMember(Name="category")]public string Category{get;set;}="";[DataMember(Name="subcategory")]public string Subcategory{get;set;}="";[DataMember(Name="hasThumbnail")]public bool HasThumbnail{get;set;}[DataMember(Name="description")]public string Description{get;set;}="";

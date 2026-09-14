@@ -15,4 +15,10 @@ if($LASTEXITCODE -ne 0){throw 'No se pudo firmar el instalador.'}
 if($LASTEXITCODE -ne 0){throw 'La firma no supero la verificacion.'}
 $hash=(Get-FileHash -LiteralPath $Installer -Algorithm SHA256).Hash.ToLowerInvariant()
 ($hash+'  '+[IO.Path]::GetFileName($Installer)) | Set-Content ($Installer+'.sha256') -Encoding ASCII
+$manifestPath=$Installer+'.release.json'
+if(Test-Path -LiteralPath $manifestPath){
+ $manifest=Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+ $manifest.sha256=$hash
+ $manifest | ConvertTo-Json | Set-Content $manifestPath -Encoding UTF8
+}
 Write-Host 'Instalador firmado y SHA-256 actualizado. Publica este EXE y este hash.'

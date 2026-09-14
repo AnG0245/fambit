@@ -1,0 +1,7 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // No permanent public RFA URLs or Firebase download tokens. Every download passes licensing.
+    match /{object=**} { allow read, write: if false; }
+  }
+}

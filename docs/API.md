@@ -36,3 +36,12 @@ Subir familia: `multipart/form-data` con `name`, `category`, `subcategory`, `rev
 La asignación de plazas usa un `INSERT ... SELECT` condicional y una restricción única por licencia/dispositivo. La caducidad, suspensión y existencia de la sesión se revisan de nuevo en cada petición. Una respuesta ya iniciada no puede cancelarse retroactivamente mediante suspensión.
 
 Panel portable 0.4.0: sesión mediante cookie HttpOnly/SameSite=Strict, con Secure y segundo factor TOTP en producción; login en `/admin/login` y cierre en `/admin/logout`. Se verifica `Origin` en login, logout y cambios administrativos. HTTP Basic ya no se acepta. Los endpoints `/client/` validan el token del cliente, sin aceptar identidades de administrador enviadas por el usuario. Panel privado: identidad suministrada por su plataforma, aislamiento por propietario.
+# Backend Firebase 0.5.0
+
+El contrato del cliente `/api/client/*` se conserva. Las listas de familias/licencias incluyen `nextCursor` y admiten `cursor`/`limit` (100 por defecto, máximo 200). El panel y el complemento 0.5.0 recorren las páginas; los clientes anteriores solo ven la primera página.
+
+En Firebase, el administrador intercambia un ID token de Authentication y TOTP por la cookie HttpOnly `__session` en `POST /api/admin/session`. `GET` comprueba la sesión; `POST /api/admin/logout` la revoca. No se admiten HTTP Basic ni tokens de cliente como acceso administrativo. El UID permitido se configura en el servidor y se exige correo verificado. Las escrituras administrativas requieren el Origin configurado.
+
+`GET /api/admin/usage` devuelve bytes de descargas y biblioteca activa con sus topes. Para liberar un equipo: `DELETE /api/devices/ID?licenseId=LICENCIA`. Las descargas RFA y miniaturas pasan por la API; no hay enlaces públicos a Storage. Ver [guía Firebase](PUBLICAR-FIREBASE.md).
+
+## Referencia del servicio portable

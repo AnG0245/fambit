@@ -12,7 +12,7 @@ if(!$ServerUrl.IsAbsoluteUri -or $ServerUrl.Scheme -ne 'https' -or $ServerUrl.Is
 }
 [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12
 Write-Host 'Comprobando el servidor de internet...'
-try{$health=Invoke-RestMethod -Uri ([Uri]::new($ServerUrl,'/healthz')) -Method Get -TimeoutSec 20}catch{throw 'No se pudo conectar al servidor. Revisa que este publicado y que la direccion sea correcta.'}
+try{$health=Invoke-RestMethod -Uri ([Uri]::new($ServerUrl,'/healthz')) -Method Get -TimeoutSec 60}catch{throw 'No se pudo conectar al servidor. Revisa que este publicado y que la direccion sea correcta.'}
 if($health.service -ne 'FAMBIT' -or $health.status -ne 'ok' -or $health.production -ne $true -or $health.apiVersion -ne 1){throw 'El servidor no confirma una API FAMBIT de produccion compatible.'}
 if($Year -eq 0){
  $answer=Read-Host 'Anio de Revit que vas a probar (Enter = 2025)'

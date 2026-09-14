@@ -132,3 +132,6 @@ La recuperación de una copia debe usar una carpeta nueva y su configuración de
 El piloto debe comprobar instalación/desinstalación, licencia incorrecta, vencimiento, suspensión, segundo equipo, carga de una familia real, pérdida de conexión y actualización. Define precio, duración, soporte y condiciones de uso antes de abrir ventas. No se han realizado esas pruebas externas ni publicado una oferta de venta.
 
 Referencias de acceso: [OWASP sobre sesiones y cookies](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html) y [RFC 6238 sobre TOTP](https://www.rfc-editor.org/rfc/rfc6238). Las pruebas del proyecto verifican el comportamiento implementado; no constituyen una auditoría externa de seguridad.
+# Publicación anterior con servidor portable
+
+Para la entrega 0.5.0 y la migración elegida a Firebase, usa [PUBLICAR-FIREBASE.md](PUBLICAR-FIREBASE.md). Esta guía conserva la alternativa anterior.

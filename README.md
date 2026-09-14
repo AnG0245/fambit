@@ -1,10 +1,36 @@
-# FAMBIT — preparación comercial, 0.4.0
+# FAMBIT 0.5.0 — Firebase
+
+Biblioteca de familias para Revit, con panel acoplable, administración de licencias y distribución mediante un instalador de Windows.
+
+**La publicación ahora se prepara para Firebase:** Hosting sirve la web y el EXE; Authentication protege el acceso administrativo; Functions valida licencias; Firestore conserva cuentas y catálogo; Storage almacena los RFA y miniaturas privados. Render no se utiliza en este despliegue.
+
+**Empieza con doble clic en `ABRIR-GUIA-PUBLICACION.html`.** La guía completa está en [docs/PUBLICAR-FIREBASE.md](docs/PUBLICAR-FIREBASE.md).
+
+| Asistente de Windows | Para qué sirve |
+|---|---|
+| `Configurar-Firebase.cmd` | Instalar herramientas, guardar proyecto/UID y configurar el autenticador. |
+| `Probar-Firebase.cmd` | Comprobar servicios en emuladores locales, con Node 22 y Java 21. |
+| `Publicar-Firebase.cmd` | Publicar el servidor y el panel en tu proyecto. |
+| `Preparar-Instalador-Comercial.cmd` | Compilar el EXE con tu URL Firebase y referencias oficiales de Revit. |
+| `Publicar-Instalador-Firebase.cmd` | Verificar y publicar el EXE final en Hosting. |
+
+Los clientes usan correo + licencia; no necesitan una cuenta Firebase ni compilar el programa. La configuración administrativa es privada y no se incluye en el instalador.
+
+**Coste:** Firebase requiere Blaze para Functions y Storage. Existen cuotas gratuitas, pero no se garantiza coste cero. Los límites de descargas y almacenamiento de FAMBIT no son un límite de facturación. [Requisitos oficiales](https://firebase.google.com/docs/storage/faqs-storage-changes-announced-sept-2024).
+
+**Estado comprobado:** pruebas de API con Auth/Firestore/Storage emulados y regresión del servidor portable. La prueba completa de Hosting → Functions está configurada en GitHub Actions. Consulta [docs/VALIDACION.md](docs/VALIDACION.md) y el resultado del commit. No se ha desplegado un proyecto real ni compilado o probado el EXE 0.5.0 en Windows/Revit desde este entorno. No puedo confirmar su funcionamiento nativo hasta esa prueba.
+
+La importación opcional conserva licencias, equipos y archivos desde una copia del servidor anterior. El código no incluye tu biblioteca real: sigue en tu equipo hasta que la traslades.
+
+## Referencia histórica: servidor portable y entrega 0.4.0
+
+El contenido siguiente documenta la alternativa anterior. Para la nueva publicación usa la guía de Firebase enlazada arriba.
 
 Biblioteca de familias Revit por categorías, cuentas con licencia y distribución mediante un instalador de Windows.
 
 **Estado real:** el usuario confirmó que FAMBIT 0.2.0 funciona en su Revit. Esta entrega 0.4.0 prepara el servidor de internet: presentación pública, panel privado con contraseña y TOTP, sesiones revocables, configuración de Render, copias recuperables y asistente de compilación comercial. El código nativo de carga y colocación no cambió. No se ha desplegado en Render ni compilado un EXE en este entorno. El ZIP contiene código fuente y portal compilado, sin EXE ni DLL del add-in.
 
-**Empieza con doble clic en `ABRIR-GUIA-PUBLICACION.html`.** La guía técnica está en [docs/PUBLICAR-FAMBIT.md](docs/PUBLICAR-FAMBIT.md). Para una prueba local, consulta [docs/PRUEBA-WINDOWS.md](docs/PRUEBA-WINDOWS.md).
+La guía técnica del servidor portable está en [docs/PUBLICAR-FAMBIT.md](docs/PUBLICAR-FAMBIT.md). Para una prueba local, consulta [docs/PRUEBA-WINDOWS.md](docs/PRUEBA-WINDOWS.md).
 
 ## Qué puedes usar
 
