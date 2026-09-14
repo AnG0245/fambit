@@ -18,7 +18,7 @@ Los clientes usan correo + licencia; no necesitan una cuenta Firebase ni compila
 
 **Coste:** Firebase requiere Blaze para Functions y Storage. Existen cuotas gratuitas, pero no se garantiza coste cero. Los límites de descargas y almacenamiento de FAMBIT no son un límite de facturación. [Requisitos oficiales](https://firebase.google.com/docs/storage/faqs-storage-changes-announced-sept-2024).
 
-**Estado comprobado:** pruebas de API con Auth/Firestore/Storage emulados y regresión del servidor portable. La prueba completa de Hosting → Functions está configurada en GitHub Actions. Consulta [docs/VALIDACION.md](docs/VALIDACION.md) y el resultado del commit. No se ha desplegado un proyecto real ni compilado o probado el EXE 0.5.0 en Windows/Revit desde este entorno. No puedo confirmar su funcionamiento nativo hasta esa prueba.
+**Estado comprobado:** [GitHub Actions aprobado](https://github.com/AnG0245/fambit/actions/runs/34796744628) con instalación limpia, TypeScript, portales compilados y emuladores completos de Hosting, Functions, Authentication, Firestore y Storage: 11 resultados de integración, 2 de herramientas y 27 de regresión portable. Consulta [docs/VALIDACION.md](docs/VALIDACION.md). No se ha desplegado un proyecto real ni compilado o probado el EXE 0.5.0 en Windows/Revit desde este entorno. No puedo confirmar su funcionamiento nativo hasta esa prueba.
 
 La importación opcional conserva licencias, equipos y archivos desde una copia del servidor anterior. El código no incluye tu biblioteca real: sigue en tu equipo hasta que la traslades.
 
