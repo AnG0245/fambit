@@ -39,8 +39,8 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   const rl = createInterface({input: stdin, output: stdout});
   try {
     const args = process.argv.slice(2), option = flag => { const i = args.indexOf(flag); return i < 0 ? '' : args[i + 1]; };
-    const projectId = option('--project') || (await rl.question('ID exacto del proyecto Firebase: ')).trim();
-    const uid = option('--uid') || (await rl.question('UID del administrador (Authentication > Users): ')).trim();
+    const projectId = option('--project') || process.env.FAMBIT_SETUP_PROJECT?.trim() || (await rl.question('ID exacto del proyecto Firebase: ')).trim();
+    const uid = option('--uid') || process.env.FAMBIT_SETUP_ADMIN_UID?.trim() || (await rl.question('UID del administrador (Authentication > Users): ')).trim();
     const bucket = option('--bucket') || (await rl.question(`Bucket de Storage (Enter = ${projectId}.firebasestorage.app): `)).trim() || projectId + '.firebasestorage.app';
     const result = await configure({projectId, uid, bucket, owner: option('--owner') || 'local-test', ...(option('--origin') ? {origin: option('--origin')} : {})});
     console.log('Configuración local lista. Abre el archivo del autenticador:'); console.log(result.authenticatorPage);

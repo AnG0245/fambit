@@ -48,6 +48,8 @@ Haz doble clic en **`Configurar-Firebase.cmd`**. Instala las dependencias fijada
 | UID del administrador | Authentication → Users → tu usuario → UID. |
 | Bucket | Storage → nombre del bucket, sin `gs://`. |
 
+Si recibiste un configurador personal `.cmd`, colócalo junto a `README.md` en esta copia actualizada y ejecútalo en lugar de `Configurar-Firebase.cmd`. Ese archivo puede rellenar el proyecto y el administrador mediante `FAMBIT_SETUP_PROJECT` y `FAMBIT_SETUP_ADMIN_UID`; confirma el bucket que muestra tu consola de Storage. Los argumentos `--project` y `--uid` tienen prioridad sobre esos valores. Ejecutar el configurador prepara archivos locales; el acceso del administrador se aplica al publicar.
+
 Al terminar abre una página privada del autenticador. Añade esa clave como cuenta **basada en tiempo** en tu aplicación de autenticación. Guarda su copia de recuperación. La clave queda fuera del repositorio, en `%LOCALAPPDATA%\FAMBIT\Firebase\ID\`; no se entrega a clientes. ID, UID y bucket son configuración; contraseña, clave TOTP y credenciales de servicio son privadas.
 
 Para usar tu dominio propio desde el inicio, ejecuta `node firebase/configure.mjs --project ID --uid UID --bucket BUCKET --origin https://tu-dominio` en vez del asistente y configura ese dominio en Hosting. Usa el mismo origen para entrar al panel y compilar el add-in. Cambiar el dominio posteriormente requiere otra configuración del cliente.
