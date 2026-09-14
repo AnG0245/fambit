@@ -62,3 +62,21 @@ next-env.d.ts
 *.tsbuildinfo
 admin-totp.json
 .fambit-lock.json
+# Firebase deploy output, emulator state and private operator configuration.
+/firebase/dist/
+/firebase/functions/node_modules/
+/firebase/tooling/node_modules/
+/firebase/functions/catalog.mjs
+/firebase/.local-config.json
+/.firebaserc
+/.firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+database-debug.log*
+*.log
+.secret.local
+firebase.emulators.local.json
+service-account*.json
+*-firebase-adminsdk-*.json
+!/firebase/functions/.env.example

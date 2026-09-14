@@ -85,5 +85,6 @@ jobs:
           path: |
             artifacts/installer/*.exe
             artifacts/installer/*.exe.sha256
+            artifacts/installer/*.exe.release.json
           if-no-files-found: error
           retention-days: 14

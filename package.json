@@ -1,6 +1,6 @@
 {
   "name": "nube-bim",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
@@ -15,7 +15,11 @@
     "build:selfhost": "node scripts/build-selfhost.mjs && vite build --config selfhost/vite.config.mjs",
     "test:service": "node scripts/build-selfhost.mjs && node --test tests/service.test.mjs tests/migration.test.mjs",
     "test:production": "node scripts/build-selfhost.mjs && node --test tests/production.test.mjs",
-    "start:selfhost": "node selfhost/server.mjs"
+    "start:selfhost": "node selfhost/server.mjs",
+    "build:firebase": "node scripts/build-firebase.mjs",
+    "test:firebase": "node scripts/test-firebase.mjs",
+    "configure:firebase": "node firebase/configure.mjs",
+    "deploy:firebase": "node firebase/deploy.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

@@ -1,7 +1,7 @@
 param(
  [Parameter(Mandatory=$true)][Uri]$ApiBaseUrl,
  [ValidateSet(2024,2025,2026,2027)][int[]]$Years=@(2024),
- [string]$Version='0.4.0',
+ [string]$Version='0.5.0',
  [string]$RevitRoot='C:\Program Files\Autodesk',
  [hashtable]$ApiDirectories=@{},
  [hashtable]$TargetFrameworks=@{},
@@ -75,6 +75,7 @@ if($PackageInstaller){
  if(!(Test-Path -LiteralPath $installerFile)){throw 'El compilador no produjo el EXE esperado.'}
  $hash=(Get-FileHash -LiteralPath $installerFile -Algorithm SHA256).Hash.ToLowerInvariant()
  ($hash+'  '+[IO.Path]::GetFileName($installerFile)) | Set-Content ($installerFile+'.sha256') -Encoding ASCII
+ @{service='FAMBIT';version=$Version;years=@($Years);localTest=$LocalTest.IsPresent;apiBaseUrl=$ApiBaseUrl.AbsoluteUri.TrimEnd('/')+'/';sha256=$hash} | ConvertTo-Json | Set-Content ($installerFile+'.release.json') -Encoding UTF8
  Write-Host "Instalador generado: $installerFile"
 }
 [pscustomobject]@{Installer=$installerFile;Payload=$payloadRoot;Years=$Years;LocalTest=$LocalTest.IsPresent}

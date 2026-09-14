@@ -1,3 +1,7 @@
+# Publicación anterior con servidor portable
+
+Para la entrega 0.5.0 y la migración elegida a Firebase, usa [PUBLICAR-FIREBASE.md](PUBLICAR-FIREBASE.md). Esta guía conserva la alternativa anterior.
+
 # Preparar la publicación de FAMBIT 0.4.0
 
 Esta entrega prepara el servidor, la web pública y el generador del instalador. **Todavía no es un servicio publicado ni un EXE compilado.** No se contrataron servicios, no se conectó un dominio y no se cargaron datos del usuario a un servidor externo.

@@ -1,0 +1,15 @@
+{
+  "indexes": [
+    {"collectionGroup": "families", "queryScope": "COLLECTION", "fields": [{"fieldPath": "owner", "order": "ASCENDING"}, {"fieldPath": "updated", "order": "DESCENDING"}]},
+    {"collectionGroup": "families", "queryScope": "COLLECTION", "fields": [{"fieldPath": "owner", "order": "ASCENDING"}, {"fieldPath": "published", "order": "ASCENDING"}, {"fieldPath": "updated", "order": "DESCENDING"}]},
+    {"collectionGroup": "licenses", "queryScope": "COLLECTION", "fields": [{"fieldPath": "owner", "order": "ASCENDING"}, {"fieldPath": "created", "order": "DESCENDING"}]},
+    {"collectionGroup": "releases", "queryScope": "COLLECTION", "fields": [{"fieldPath": "owner", "order": "ASCENDING"}, {"fieldPath": "created", "order": "DESCENDING"}]}
+  ],
+  "fieldOverrides": [
+    {"collectionGroup": "licenses", "fieldPath": "devices", "indexes": []},
+    {"collectionGroup": "licenses", "fieldPath": "key_hash", "indexes": []},
+    {"collectionGroup": "rateLimits", "fieldPath": "addresses", "indexes": []},
+    {"collectionGroup": "families", "fieldPath": "description", "indexes": []},
+    {"collectionGroup": "adminSessions", "fieldPath": "sessionHash", "indexes": []}
+  ]
+}

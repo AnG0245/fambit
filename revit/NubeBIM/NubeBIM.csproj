@@ -6,7 +6,7 @@
     <TargetFramework Condition="'$(RevitYear)'=='2027'">net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF><OutputType>Library</OutputType><PlatformTarget>x64</PlatformTarget>
     <LangVersion>latest</LangVersion><Nullable>enable</Nullable><ImplicitUsings>disable</ImplicitUsings>
-    <AssemblyName>NubeBIM</AssemblyName><RootNamespace>NubeBIM</RootNamespace><Version>0.4.0</Version>
+    <AssemblyName>NubeBIM</AssemblyName><RootNamespace>NubeBIM</RootNamespace><Version>0.5.0</Version>
     <DefineConstants Condition="'$(LocalTest)'=='true'">$(DefineConstants);NUBE_LOCAL_TEST</DefineConstants>
     <RevitApiDir Condition="'$(RevitApiDir)'==''">C:\Program Files\Autodesk\Revit $(RevitYear)</RevitApiDir>
     <OutputPath>bin\$(RevitYear)\$(Configuration)\</OutputPath>
